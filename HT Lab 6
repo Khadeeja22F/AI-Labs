@@ -1,0 +1,162 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "95cd5f10-66c7-4d44-9548-7bc35fa04f87",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "    Emp ID  Age      Gender            Role       Industry  Experience  \\\n",
+      "0  Emp0001   32  Non Binary              HR         Health          13   \n",
+      "1  Emp0002   40      Female  Data Scientist             IT           3   \n",
+      "2  Emp0003   59  Non Binary   Software Engr      Education          22   \n",
+      "3  Emp0004   27        Male   Software Engr        Finance          20   \n",
+      "4  Emp0005   49        Male           Sales     Consulting          32   \n",
+      "5  Emp0006   56  Non Binary  Data Scientist  Manufacturing           6   \n",
+      "6  Emp0007   31        Male           Sales             IT          24   \n",
+      "\n",
+      "      Loc  Hrs/Week Stress Mental Health Satisfaction  \n",
+      "0  Hybrid        47    Med           Dep  Unsatisfied  \n",
+      "1  Remote        52    Med           Anx    Satisfied  \n",
+      "2  Hybrid        46    Med           Anx  Unsatisfied  \n",
+      "3  Onsite        32   High           Dep  Unsatisfied  \n",
+      "4  Onsite        35   High          None  Unsatisfied  \n",
+      "5  Onsite        54    Med           Dep    Satisfied  \n",
+      "6  Remote        51    Low           Anx      Neutral  \n",
+      "\n",
+      "Encoded Dataset:\n",
+      "    Emp ID  Age  Gender  Role  Industry  Experience  Loc  Hrs/Week  Stress  \\\n",
+      "0  Emp0001   32       2     1         3          13    0        47       2   \n",
+      "1  Emp0002   40       0     0         4           3    2        52       2   \n",
+      "2  Emp0003   59       2     3         1          22    0        46       2   \n",
+      "3  Emp0004   27       1     3         2          20    1        32       0   \n",
+      "4  Emp0005   49       1     2         0          32    1        35       0   \n",
+      "5  Emp0006   56       2     0         5           6    1        54       2   \n",
+      "6  Emp0007   31       1     2         4          24    2        51       1   \n",
+      "\n",
+      "   Mental Health  Satisfaction  \n",
+      "0              1             2  \n",
+      "1              0             1  \n",
+      "2              0             2  \n",
+      "3              1             2  \n",
+      "4              2             2  \n",
+      "5              1             1  \n",
+      "6              0             0  \n",
+      "\n",
+      "Model Coefficients:\n",
+      "[ 0.00433343  0.00257604 -0.15159652  1.12561554  0.28628881]\n",
+      "Model Intercept:\n",
+      "6.415851366172225\n",
+      "\n",
+      "Predicted Satisfaction Level for [30, 5, 40, 2, 1]: 3.032393542300776\n"
+     ]
+    },
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "C:\\Users\\kk\\anaconda3\\Lib\\site-packages\\sklearn\\base.py:493: UserWarning: X does not have valid feature names, but LinearRegression was fitted with feature names\n",
+      "  warnings.warn(\n"
+     ]
+    },
+    {
+     "ename": "ValueError",
+     "evalue": "y contains previously unseen labels: [3]",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[1;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[1;31mValueError\u001b[0m                                Traceback (most recent call last)",
+      "Cell \u001b[1;32mIn[1], line 54\u001b[0m\n\u001b[0;32m     51\u001b[0m \u001b[38;5;28mprint\u001b[39m(\u001b[38;5;124mf\u001b[39m\u001b[38;5;124m\"\u001b[39m\u001b[38;5;130;01m\\n\u001b[39;00m\u001b[38;5;124mPredicted Satisfaction Level for \u001b[39m\u001b[38;5;132;01m{\u001b[39;00mexample[\u001b[38;5;241m0\u001b[39m]\u001b[38;5;132;01m}\u001b[39;00m\u001b[38;5;124m: \u001b[39m\u001b[38;5;132;01m{\u001b[39;00msatisfaction_prediction[\u001b[38;5;241m0\u001b[39m]\u001b[38;5;132;01m}\u001b[39;00m\u001b[38;5;124m\"\u001b[39m)\n\u001b[0;32m     53\u001b[0m \u001b[38;5;66;03m# Decode the predicted satisfaction level (convert numeric back to label)\u001b[39;00m\n\u001b[1;32m---> 54\u001b[0m predicted_label \u001b[38;5;241m=\u001b[39m label_encoders[\u001b[38;5;124m'\u001b[39m\u001b[38;5;124mSatisfaction\u001b[39m\u001b[38;5;124m'\u001b[39m]\u001b[38;5;241m.\u001b[39minverse_transform([\u001b[38;5;28mint\u001b[39m(\u001b[38;5;28mround\u001b[39m(satisfaction_prediction[\u001b[38;5;241m0\u001b[39m]))])[\u001b[38;5;241m0\u001b[39m]\n\u001b[0;32m     55\u001b[0m \u001b[38;5;28mprint\u001b[39m(\u001b[38;5;124mf\u001b[39m\u001b[38;5;124m\"\u001b[39m\u001b[38;5;124mPredicted Satisfaction: \u001b[39m\u001b[38;5;132;01m{\u001b[39;00mpredicted_label\u001b[38;5;132;01m}\u001b[39;00m\u001b[38;5;124m\"\u001b[39m)\n",
+      "File \u001b[1;32m~\\anaconda3\\Lib\\site-packages\\sklearn\\preprocessing\\_label.py:160\u001b[0m, in \u001b[0;36mLabelEncoder.inverse_transform\u001b[1;34m(self, y)\u001b[0m\n\u001b[0;32m    158\u001b[0m diff \u001b[38;5;241m=\u001b[39m np\u001b[38;5;241m.\u001b[39msetdiff1d(y, np\u001b[38;5;241m.\u001b[39marange(\u001b[38;5;28mlen\u001b[39m(\u001b[38;5;28mself\u001b[39m\u001b[38;5;241m.\u001b[39mclasses_)))\n\u001b[0;32m    159\u001b[0m \u001b[38;5;28;01mif\u001b[39;00m \u001b[38;5;28mlen\u001b[39m(diff):\n\u001b[1;32m--> 160\u001b[0m     \u001b[38;5;28;01mraise\u001b[39;00m \u001b[38;5;167;01mValueError\u001b[39;00m(\u001b[38;5;124m\"\u001b[39m\u001b[38;5;124my contains previously unseen labels: \u001b[39m\u001b[38;5;132;01m%s\u001b[39;00m\u001b[38;5;124m\"\u001b[39m \u001b[38;5;241m%\u001b[39m \u001b[38;5;28mstr\u001b[39m(diff))\n\u001b[0;32m    161\u001b[0m y \u001b[38;5;241m=\u001b[39m np\u001b[38;5;241m.\u001b[39masarray(y)\n\u001b[0;32m    162\u001b[0m \u001b[38;5;28;01mreturn\u001b[39;00m \u001b[38;5;28mself\u001b[39m\u001b[38;5;241m.\u001b[39mclasses_[y]\n",
+      "\u001b[1;31mValueError\u001b[0m: y contains previously unseen labels: [3]"
+     ]
+    }
+   ],
+   "source": [
+    "import pandas as pd\n",
+    "from sklearn.linear_model import LinearRegression\n",
+    "from sklearn.preprocessing import LabelEncoder\n",
+    "\n",
+    "# Create the dataset\n",
+    "data = {\n",
+    "    'Emp ID': ['Emp0001', 'Emp0002', 'Emp0003', 'Emp0004', 'Emp0005', 'Emp0006', 'Emp0007'],\n",
+    "    'Age': [32, 40, 59, 27, 49, 56, 31],\n",
+    "    'Gender': ['Non Binary', 'Female', 'Non Binary', 'Male', 'Male', 'Non Binary', 'Male'],\n",
+    "    'Role': ['HR', 'Data Scientist', 'Software Engr', 'Software Engr', 'Sales', 'Data Scientist', 'Sales'],\n",
+    "    'Industry': ['Health', 'IT', 'Education', 'Finance', 'Consulting', 'Manufacturing', 'IT'],\n",
+    "    'Experience': [13, 3, 22, 20, 32, 6, 24],\n",
+    "    'Loc': ['Hybrid', 'Remote', 'Hybrid', 'Onsite', 'Onsite', 'Onsite', 'Remote'],\n",
+    "    'Hrs/Week': [47, 52, 46, 32, 35, 54, 51],\n",
+    "    'Stress': ['Med', 'Med', 'Med', 'High', 'High', 'Med', 'Low'],\n",
+    "    'Mental Health': ['Dep', 'Anx', 'Anx', 'Dep', 'None', 'Dep', 'Anx'],\n",
+    "    'Satisfaction': ['Unsatisfied', 'Satisfied', 'Unsatisfied', 'Unsatisfied', 'Unsatisfied', 'Satisfied', 'Neutral']\n",
+    "}\n",
+    "df = pd.DataFrame(data)\n",
+    "print(df)\n",
+    "# Encode categorical variables\n",
+    "label_encoders = {}\n",
+    "categorical_columns = ['Gender', 'Role', 'Industry', 'Loc', 'Stress', 'Mental Health', 'Satisfaction']\n",
+    "for col in categorical_columns:\n",
+    "    label_encoders[col] = LabelEncoder()\n",
+    "    df[col] = label_encoders[col].fit_transform(df[col])\n",
+    "\n",
+    "# Display the encoded dataset\n",
+    "print(\"\\nEncoded Dataset:\")\n",
+    "print(df)\n",
+    "# Prepare the data for regression\n",
+    "X = df[['Age', 'Experience', 'Hrs/Week', 'Stress', 'Mental Health']]  # Independent variables\n",
+    "y = df['Satisfaction']  # Dependent variable\n",
+    "\n",
+    "# Train the linear regression model\n",
+    "reg = LinearRegression()\n",
+    "reg.fit(X, y)\n",
+    "# Display the model coefficients and intercept\n",
+    "print(\"\\nModel Coefficients:\")\n",
+    "print(reg.coef_)\n",
+    "print(\"Model Intercept:\")\n",
+    "print(reg.intercept_)\n",
+    "\n",
+    "# Predict satisfaction for a custom employee profile (replace these values with test cases as needed)\n",
+    "example = [[30, 5, 40, 2, 1]]  # Example employee features\n",
+    "satisfaction_prediction = reg.predict(example)\n",
+    "print(f\"\\nPredicted Satisfaction Level for {example[0]}: {satisfaction_prediction[0]}\")\n",
+    "# Decode the predicted satisfaction level (convert numeric back to label)\n",
+    "predicted_label = label_encoders['Satisfaction'].inverse_transform([int(round(satisfaction_prediction[0]))])[0]\n",
+    "print(f\"Predicted Satisfaction: {predicted_label}\")\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "dd16094c-7497-4815-b307-d1fde4b26bf4",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.12.7"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
