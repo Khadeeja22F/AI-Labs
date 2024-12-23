@@ -1,0 +1,83 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "2b11dc6d-eeaf-4ba6-b465-a237538972ef",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import pandas as pd\n",
+    "from surprise import Dataset, Reader\n",
+    "from surprise import KNNWithMeans\n",
+    "\n",
+    "# Step 1: Define the dataset\n",
+    "ratings_dict = {\n",
+    "    \"item\": [1, 2, 3, 4, 5],\n",
+    "    \"user\": ['X', 'X', 'Y', 'Y', 'Z'],\n",
+    "    \"rating\": [3, 4, 2, 5, 4],\n",
+    "}\n",
+    "# Create a DataFrame and load the data into Surprise\n",
+    "df = pd.DataFrame(ratings_dict)\n",
+    "reader = Reader(rating_scale=(1, 5))\n",
+    "data = Dataset.load_from_df(df[[\"user\", \"item\", \"rating\"]], reader)\n",
+    "# Step 2: Define similarity options for item-based collaborative filtering\n",
+    "sim_options = {\n",
+    "    \"name\": \"cosine\",\n",
+    "    \"user_based\": False,  # Item-based filtering\n",
+    "}\n",
+    "# Step 3: Train the model\n",
+    "algo = KNNWithMeans(sim_options=sim_options)\n",
+    "trainset = data.build_full_trainset()\n",
+    "algo.fit(trainset)\n",
+    "\n",
+    "# Step 4: Recommend movies for a specific user\n",
+    "def get_top_n_recommendations(algo, user_id, n=5):\n",
+    "    \"\"\"Get the top N recommendations for a specific user.\"\"\"\n",
+    "    # Get all items in the dataset\n",
+    "    all_items = set(trainset.all_items())\n",
+    "    # Get the items rated by the user\n",
+    "    user_rated_items = set([item for (item, _) in trainset.ur[trainset.to_inner_uid(user_id)]]);\n",
+    "    # Find items not rated by the user\n",
+    "    items_to_predict = all_items - user_rated_items\n",
+    "\n",
+    "    predictions = []\n",
+    "    for item in items_to_predict:\n",
+    "        prediction = algo.predict(user_id, trainset.to_raw_iid(item))\n",
+    "        predictions.append((trainset.to_raw_iid(item), prediction.est))\n",
+    "\n",
+    "    # Sort predictions by estimated rating and return the top N\n",
+    "    top_n = sorted(predictions, key=lambda x: x[1], reverse=True)[:n]\n",
+    "    return top_n\n",
+    "\n",
+    "# Specify the user for whom recommendations are needed\n",
+    "user_id = 'Z'\n",
+    "recommendations = get_top_n_recommendations(algo, user_id, n=3)\n",
+    "print(f\"Top recommendations for user {user_id}:\")\n",
+    "for item_id, rating in recommendations:\n",
+    "    print(f\"Item {item_id} with predicted rating {rating:.2f}\")\n"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.12.7"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
