@@ -1,0 +1,272 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "c2aff20b-24e7-4eb9-bd1c-c8f530ab70a3",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Task 1: BFS from A to G\n",
+      "Goal found: G\n",
+      "Open list: []\n",
+      "Closed list: ['A', 'B', 'C', 'D', 'E', 'F', 'G']\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Task 1: BFS from A to G\n",
+    "def bfs_task1(graph, start, goal):\n",
+    "    open_list = [start]\n",
+    "    closed_list = []\n",
+    "    while open_list:\n",
+    "        current = open_list.pop(0)  # Remove the first element\n",
+    "        closed_list.append(current)  # Add it to the closed list\n",
+    "        if current == goal:\n",
+    "            print(\"Goal found:\", goal)\n",
+    "            print(\"Open list:\", open_list)\n",
+    "            print(\"Closed list:\", closed_list)\n",
+    "            return\n",
+    "        # Add neighbors to the open list\n",
+    "        for neighbor in graph[current]:\n",
+    "            if neighbor not in closed_list and neighbor not in open_list:\n",
+    "                open_list.append(neighbor)\n",
+    "    print(\"Goal not found.\")\n",
+    "    print(\"Open list:\", open_list)\n",
+    "    print(\"Closed list:\", closed_list)\n",
+    "# Example graph representation\n",
+    "graph = {\n",
+    "    'A': ['B', 'C'],\n",
+    "    'B': ['D', 'E'],\n",
+    "    'C': ['F'],\n",
+    "    'D': [],\n",
+    "    'E': ['G'],\n",
+    "    'F': [],\n",
+    "    'G': []\n",
+    "}\n",
+    "print(\"Task 1: BFS from A to G\")\n",
+    "bfs_task1(graph, 'A', 'G')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "id": "db29d6ed-1704-42d4-b096-9c9c51377c22",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\n",
+      "Task 2: BFS with user input\n"
+     ]
+    },
+    {
+     "name": "stdin",
+     "output_type": "stream",
+     "text": [
+      "Enter the initial state:  A\n",
+      "Enter the goal state:  F\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Goal found: F\n",
+      "Open list: ['G']\n",
+      "Closed list: ['A', 'B', 'C', 'D', 'E', 'F']\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Task 2: BFS with user input\n",
+    "def bfs_task2(graph, start, goal):\n",
+    "    open_list = [start]\n",
+    "    closed_list = []\n",
+    "    while open_list:\n",
+    "        current = open_list.pop(0)  # Remove the first element\n",
+    "        closed_list.append(current)  # Add it to the closed list\n",
+    "        if current == goal:\n",
+    "            print(\"Goal found:\", goal)\n",
+    "            print(\"Open list:\", open_list)\n",
+    "            print(\"Closed list:\", closed_list)\n",
+    "            return\n",
+    "        # Add neighbors to the open list\n",
+    "        for neighbor in graph[current]:\n",
+    "            if neighbor not in closed_list and neighbor not in open_list:\n",
+    "                open_list.append(neighbor)\n",
+    "    print(\"Goal not found.\")\n",
+    "    print(\"Open list:\", open_list)\n",
+    "    print(\"Closed list:\", closed_list) \n",
+    "# Example graph representation\n",
+    "graph = {\n",
+    "    'A': ['B', 'C'],\n",
+    "    'B': ['D', 'E'],\n",
+    "    'C': ['F'],\n",
+    "    'D': [],\n",
+    "    'E': ['G'],\n",
+    "    'F': [],\n",
+    "    'G': []\n",
+    "}\n",
+    "print(\"\\nTask 2: BFS with user input\")\n",
+    "start = input(\"Enter the initial state: \")\n",
+    "goal = input(\"Enter the goal state: \")\n",
+    "bfs_task2(graph, start, goal)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "id": "c8a3a072-a974-4df8-95d1-45251ffc1ad7",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\n",
+      "Task 3: DFS from A to G\n",
+      "Goal found: G\n",
+      "Open list: ['C']\n",
+      "Closed list: ['A', 'B', 'D', 'E', 'G']\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Task 3: DFS from A to G\n",
+    "def dfs_task3(graph, start, goal):\n",
+    "    open_list = [start]\n",
+    "    closed_list = []\n",
+    "    while open_list:\n",
+    "        current = open_list.pop()  # Remove the last element\n",
+    "        closed_list.append(current)  # Add it to the closed list\n",
+    "        if current == goal:\n",
+    "            print(\"Goal found:\", goal)\n",
+    "            print(\"Open list:\", open_list)\n",
+    "            print(\"Closed list:\", closed_list)\n",
+    "            return\n",
+    "        # Add neighbors to the open list\n",
+    "        for neighbor in reversed(graph[current]):\n",
+    "            if neighbor not in closed_list and neighbor not in open_list:\n",
+    "                open_list.append(neighbor)\n",
+    "    print(\"Goal not found.\")\n",
+    "    print(\"Open list:\", open_list)\n",
+    "    print(\"Closed list:\", closed_list) \n",
+    "# Example graph representation\n",
+    "graph = {\n",
+    "    'A': ['B', 'C'],\n",
+    "    'B': ['D', 'E'],\n",
+    "    'C': ['F'],\n",
+    "    'D': [],\n",
+    "    'E': ['G'],\n",
+    "    'F': [],\n",
+    "    'G': []\n",
+    "}\n",
+    "print(\"\\nTask 3: DFS from A to G\")\n",
+    "dfs_task3(graph, 'A', 'G')\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "id": "2a78e541-9926-48cc-8ec2-ecbea49b253c",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "\n",
+      "Task 4: DFS with user input\n"
+     ]
+    },
+    {
+     "name": "stdin",
+     "output_type": "stream",
+     "text": [
+      "Enter the initial state:  B\n",
+      "Enter the goal state:  G\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Goal found: G\n",
+      "Open list: []\n",
+      "Closed list: ['B', 'D', 'E', 'G']\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Task 4: DFS with user input\n",
+    "def dfs_task4(graph, start, goal):\n",
+    "    open_list = [start]\n",
+    "    closed_list = []\n",
+    "    while open_list:\n",
+    "        current = open_list.pop()  # Remove the last element\n",
+    "        closed_list.append(current)  # Add it to the closed list\n",
+    "        if current == goal:\n",
+    "            print(\"Goal found:\", goal)\n",
+    "            print(\"Open list:\", open_list)\n",
+    "            print(\"Closed list:\", closed_list)\n",
+    "            return\n",
+    "        # Add neighbors to the open list\n",
+    "        for neighbor in reversed(graph[current]):\n",
+    "            if neighbor not in closed_list and neighbor not in open_list:\n",
+    "                open_list.append(neighbor)\n",
+    "    print(\"Goal not found.\")\n",
+    "    print(\"Open list:\", open_list)\n",
+    "    print(\"Closed list:\", closed_list)\n",
+    "# Example graph representation\n",
+    "graph = {\n",
+    "    'A': ['B', 'C'],\n",
+    "    'B': ['D', 'E'],\n",
+    "    'C': ['F'],\n",
+    "    'D': [],\n",
+    "    'E': ['G'],\n",
+    "    'F': [],\n",
+    "    'G': []\n",
+    "}\n",
+    "print(\"\\nTask 4: DFS with user input\")\n",
+    "start = input(\"Enter the initial state: \")\n",
+    "goal = input(\"Enter the goal state: \")\n",
+    "dfs_task4(graph, start, goal)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "79c4b751-d65c-4d2f-88a9-f25db26fef00",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.12.7"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
